@@ -4,9 +4,7 @@ import joblib
 import re
 from urllib.parse import urlparse
 
-# =====================================================
-# 1. KONFIGURASI HALAMAN & STYLE
-# =====================================================
+#konfigurasi halaman dan style
 st.set_page_config(page_title="Phishing URL Analyzer", page_icon="🛡️", layout="centered")
 
 st.markdown("""
@@ -17,9 +15,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# =====================================================
-# 2. LOAD MODEL & ASSETS (CACHED)
-# =====================================================
+#load model dan assets
 @st.cache_resource
 def load_assets():
     try:
@@ -33,9 +29,7 @@ def load_assets():
 
 model, scaler, X_train_columns = load_assets()
 
-# =====================================================
-# 3. FUNGSI EKSTRAKSI 17 FITUR
-# =====================================================
+#fungsi ekstraksi 17 fitur
 def extract_features(url):
     url_str = str(url).lower().strip().rstrip('/')
     parsed = urlparse(url_str)
@@ -78,9 +72,7 @@ def extract_features(url):
 
     return f
 
-# =====================================================
-# 4. FUNGSI INTERPRETASI (EXPLANATION)
-# =====================================================
+#fungsi intrepetasi 
 def get_explanation(prediction, proba, f):
     # Ambil nilai probabilitas untuk kelas terpilih
     conf = proba[1] * 100 if prediction == 1 else proba[0] * 100
@@ -108,9 +100,7 @@ def get_explanation(prediction, proba, f):
     
     return conf, level, summary, trigger_text
 
-# =====================================================
-# 5. USER INTERFACE
-# =====================================================
+#UI
 st.markdown("<h1 class='main-title'>🛡️ Detektor URL Phishing</h1>", unsafe_allow_html=True)
 st.write("Sistem berbasis Artificial Intelligence untuk mendeteksi potensi ancaman pada tautan website.")
 st.divider()
